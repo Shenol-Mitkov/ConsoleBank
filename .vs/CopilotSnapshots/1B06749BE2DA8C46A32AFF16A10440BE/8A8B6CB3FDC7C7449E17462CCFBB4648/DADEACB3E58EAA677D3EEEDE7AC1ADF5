@@ -44,37 +44,15 @@
             Console.WriteLine($"Åtkomst godkänd. Välkommen, {users[index]}!");
             Console.WriteLine(" ");
 
-            // show menu and loop until user logs out
-            while (true)
-            {
-                Console.WriteLine("Välj alternativ: ");
-                Console.WriteLine("1. Se dina konton och saldo");
-                Console.WriteLine("2. Överföring mellan konton");
-                Console.WriteLine("3. Ta ut pengar");
-                Console.WriteLine("4. logga ut");
+            Console.WriteLine("Välj alternativ: ");
+            Console.WriteLine("1. Se dina konton och saldo");
+            Console.WriteLine("2. Överföring mellan konton");
+            Console.WriteLine("3. Ta ut pengar");
+            Console.WriteLine("4. logga ut");
 
-                var menuKey = Console.ReadKey(true).KeyChar;
-                switch (menuKey)
-                {
-                    case '1':
-                        Console.WriteLine("Val 1 är inte implementerat än.");
-                        break;
-                    case '2':
-                        Console.WriteLine("Val 2 är inte implementerat än.");
-                        break;
-                    case '3':
-                        Console.WriteLine("Val 3 är inte implementerat än.");
-                        break;
-                    case '4':
-                        LogOut();
-                        break;
-                    default:
-                        Console.WriteLine($"Val '{menuKey}' är inte giltigt.");
-                        break;
-                }
 
-                Console.WriteLine();
-            }
+
+            Console.ReadKey();
         }
 
       
@@ -110,8 +88,7 @@
 
         static void LogOut()
         {
-            Console.WriteLine("Tack för att du använde ConsoleBank TM");
-            Environment.Exit(0);
+           
         }
 
 
