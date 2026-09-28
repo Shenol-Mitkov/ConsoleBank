@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Sheno\\source\\repos\\GitHub\\Learning to code again\\ConsoleBank\\ConsoleBank.csproj": {}
+    "C:\\Users\\Sheno\\source\\repos\\GitHub\\ConsoleBank\\ConsoleBank\\ConsoleBank.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Sheno\\source\\repos\\GitHub\\Learning to code again\\ConsoleBank\\ConsoleBank.csproj": {
+    "C:\\Users\\Sheno\\source\\repos\\GitHub\\ConsoleBank\\ConsoleBank\\ConsoleBank.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Sheno\\source\\repos\\GitHub\\Learning to code again\\ConsoleBank\\ConsoleBank.csproj",
+        "projectUniqueName": "C:\\Users\\Sheno\\source\\repos\\GitHub\\ConsoleBank\\ConsoleBank\\ConsoleBank.csproj",
         "projectName": "ConsoleBank",
-        "projectPath": "C:\\Users\\Sheno\\source\\repos\\GitHub\\Learning to code again\\ConsoleBank\\ConsoleBank.csproj",
+        "projectPath": "C:\\Users\\Sheno\\source\\repos\\GitHub\\ConsoleBank\\ConsoleBank\\ConsoleBank.csproj",
         "packagesPath": "C:\\Users\\Sheno\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Sheno\\source\\repos\\GitHub\\Learning to code again\\ConsoleBank\\obj\\",
+        "outputPath": "C:\\Users\\Sheno\\source\\repos\\GitHub\\ConsoleBank\\ConsoleBank\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
