@@ -1,0 +1,61 @@
+﻿namespace ConsoleBank
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+
+
+            Console.WriteLine("Välkommen till ConsoleBank TM");
+            Console.WriteLine("Välj ditt konto och skriv in ditt lösenord ");
+            Console.WriteLine(" ");
+            Accounts();
+
+
+
+            Console.ReadKey();
+        }
+
+        static void Accounts()
+        {
+            string[] users = new string[5];
+            users[0] = "Shenol Mitkov";
+            users[1] = "Bertil Korggren";
+            users[2] = "Felix Reztsel";
+            users[3] = "Alexandra Nilsson";
+            users[4] = "Anas Alhussein";
+
+            Console.WriteLine("Välj ett konto genom att trycka nummer 1-5:");
+            for (int i = 0; i < users.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {users[i]}");
+            }
+
+            var keyInfo = Console.ReadKey(true);
+            char pressed = keyInfo.KeyChar;
+            int index = -1;
+            if (pressed >= '1' && pressed <= '5')
+            {
+                index = pressed - '1';
+            }
+
+            if (index < 0)
+            {
+                Console.WriteLine("\nOgiltigt val. Starta om programmet och välj 1-5.");
+                return;
+            }
+
+            Console.Write($"\nSkriv in lösenord för {users[index]}: ");
+            string password = Console.ReadLine() ?? string.Empty;
+
+            if (password == "Admin")
+            {
+                Console.WriteLine($"Åtkomst godkänd. Välkommen, {users[index]}!");
+            }
+            else
+            {
+                Console.WriteLine("Åtkomst nekad. Fel lösenord.");
+            }
+        }
+    }
+}
