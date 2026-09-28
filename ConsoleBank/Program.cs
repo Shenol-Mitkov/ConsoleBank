@@ -8,10 +8,10 @@
             Console.WriteLine("Välj ditt konto och skriv in ditt lösenord ");
             Console.WriteLine();
 
-            // Get accounts (Accounts only stores/returns the account array)
+            
             string[] users = Accounts();
 
-            // Show selection and read input
+            
             Console.WriteLine("Välj ett konto genom att trycka nummer 1-{0}:", users.Length);
             for (int i = 0; i < users.Length; i++)
             {
@@ -32,7 +32,7 @@
                 return;
             }
 
-            // Check password with up to 3 attempts. If it fails, close program.
+           
             bool authenticated = PasswordCheck(users[index], 3);
             if (!authenticated)
             {
@@ -41,10 +41,20 @@
             }
 
             Console.WriteLine($"Åtkomst godkänd. Välkommen, {users[index]}!");
+            Console.WriteLine(" ");
+
+            Console.WriteLine("Välj alternativ: ");
+            Console.WriteLine("1. Se dina konton och saldo");
+            Console.WriteLine("2. Överföring mellan konton");
+            Console.WriteLine("3. Ta ut pengar");
+            Console.WriteLine("4. logga ut");
+
+
+
             Console.ReadKey();
         }
 
-        // Accounts only creates and returns the array of users so it can be managed in one place
+      
         static string[] Accounts()
         {
             string[] users = new string[5];
@@ -57,7 +67,7 @@
             return users;
         }
 
-        // PasswordCheck handles prompting and validating password attempts
+        
         static bool PasswordCheck(string user, int maxAttempts)
         {
             for (int attempt = 1; attempt <= maxAttempts; attempt++)
@@ -72,7 +82,7 @@
                     Console.WriteLine($"Fel lösenord. Försök igen. ({remaining} försök kvar)");
             }
 
-            // failed after maxAttempts
+           
             return false;
         }
     }
