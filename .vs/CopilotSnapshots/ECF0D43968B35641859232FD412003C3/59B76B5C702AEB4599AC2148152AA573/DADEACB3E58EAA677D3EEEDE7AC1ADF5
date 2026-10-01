@@ -12,76 +12,68 @@
             string[] users = UserProfiles();
             var accounts = InitializeAccounts(users);
 
-            // Outer loop: allow multiple users to log in sequentially
+            Console.WriteLine("Välj ett konto genom att trycka nummer 1-{0}:", users.Length);
+            for (int i = 0; i < users.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {users[i]}");
+            }
+
+            var keyInfo = Console.ReadKey(true);
+            char pressed = keyInfo.KeyChar;
+            int index = -1;
+            if (pressed >= '1' && pressed <= (char)('0' + users.Length))
+            {
+                index = pressed - '1';
+            }
+
+            if (index < 0)
+            {
+                Console.WriteLine("\nOgiltigt val. Starta om programmet och välj rätt nummer.");
+                return;
+            }
+
+           
+            bool authenticated = PasswordCheck(users[index], 3);
+            if (!authenticated)
+            {
+                Console.WriteLine("Stänger programmet pga för många misslyckade försök.");
+                Environment.Exit(0);
+            }
+            Console.Clear();
+
+            Console.WriteLine($"Åtkomst godkänd. Välkommen, {users[index]}!");
+            Console.WriteLine(" ");
+
+            
             while (true)
             {
-                Console.WriteLine("Välj ett konto genom att trycka nummer 1-{0}:", users.Length);
-                for (int i = 0; i < users.Length; i++)
+                Console.WriteLine("Välj alternativ: ");
+                Console.WriteLine("1. Se dina konton och saldo");
+                Console.WriteLine("2. Överföring mellan konton");
+                Console.WriteLine("3. Ta ut pengar");
+                Console.WriteLine("4. logga ut");
+
+                var menuKey = Console.ReadKey(true).KeyChar;
+                switch (menuKey)
                 {
-                    Console.WriteLine($"{i + 1}. {users[i]}");
+                    case '1':
+                        ShowAccounts(users[index], accounts);
+                        break;
+                    case '2':
+                        Console.WriteLine("Val 2 är inte implementerat än.");
+                        break;
+                    case '3':
+                        Console.WriteLine("Val 3 är inte implementerat än.");
+                        break;
+                    case '4':
+                        LogOut();
+                        break;
+                    default:
+                        Console.WriteLine($"Val '{menuKey}' är inte giltigt.");
+                        break;
                 }
 
-                var keyInfo = Console.ReadKey(true);
-                char pressed = keyInfo.KeyChar;
-                int index = -1;
-                if (pressed >= '1' && pressed <= (char)('0' + users.Length))
-                {
-                    index = pressed - '1';
-                }
-
-                if (index < 0)
-                {
-                    Console.WriteLine("\nOgiltigt val. Försök igen.");
-                    Console.WriteLine();
-                    continue;
-                }
-
-                bool authenticated = PasswordCheck(users[index], 3);
-                if (!authenticated)
-                {
-                    Console.WriteLine("Stänger programmet pga för många misslyckade försök.");
-                    Environment.Exit(0);
-                }
-                Console.Clear();
-
-                Console.WriteLine($"Åtkomst godkänd. Välkommen, {users[index]}!");
-                Console.WriteLine(" ");
-
-                bool loggedIn = true;
-                while (loggedIn)
-                {
-                    Console.WriteLine("Välj alternativ: ");
-                    Console.WriteLine("1. Se dina konton och saldo");
-                    Console.WriteLine("2. Överföring mellan konton");
-                    Console.WriteLine("3. Ta ut pengar");
-                    Console.WriteLine("4. logga ut");
-
-                    var menuKey = Console.ReadKey(true).KeyChar;
-                    switch (menuKey)
-                    {
-                        case '1':
-                            ShowAccounts(users[index], accounts);
-                            break;
-                        case '2':
-                            Console.WriteLine("Val 2 är inte implementerat än.");
-                            break;
-                        case '3':
-                            Console.WriteLine("Val 3 är inte implementerat än.");
-                            break;
-                        case '4':
-                            Console.WriteLine("Du loggas ut...");
-                            loggedIn = false;
-                            break;
-                        default:
-                            Console.WriteLine($"Val '{menuKey}' är inte giltigt.");
-                            break;
-                    }
-
-                    Console.WriteLine();
-                }
-
-                Console.Clear();
-                // loop back to allow another user to log in
+                Console.WriteLine();
             }
         }
 
@@ -139,7 +131,7 @@
             for (int i = 0; i < list.Count; i++)
             {
                 var a = list[i];
-                Console.WriteLine($"{i + 1}. {a.Type} - Saldo: {a.Balance:C}");
+                Console.WriteLine($"{i + 1}. {a.Type} - Kontonr: {a.AccountNumber} - Saldo: {a.Balance:C}");
             }
 
             Console.WriteLine("\nTryck valfri tangent för att återgå till menyn...");
@@ -176,7 +168,11 @@
             return false;
         }
 
-       
+        static void LogOut()
+        {
+            Console.WriteLine("Tack för att du använde ConsoleBank TM");
+            Environment.Exit(0);
+        }
 
 
     }
