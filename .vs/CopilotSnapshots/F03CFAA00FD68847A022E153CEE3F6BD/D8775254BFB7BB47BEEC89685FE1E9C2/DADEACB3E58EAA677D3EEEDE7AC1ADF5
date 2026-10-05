@@ -20,7 +20,6 @@
                 {
                     Console.WriteLine($"{i + 1}. {users[i]}");
                 }
-       
 
                 var keyInfo = Console.ReadKey(true);
                 char pressed = keyInfo.KeyChar;
@@ -64,7 +63,7 @@
                             ShowAccounts(users[index], accounts);
                             break;
                         case '2':
-                            TransferBetweenAccounts(users[index], accounts);
+                            Console.WriteLine("Val 2 är inte implementerat än.");
                             break;
                         case '3':
                             Console.WriteLine("Val 3 är inte implementerat än.");
@@ -177,94 +176,7 @@
             return false;
         }
 
-        // Transfer funds between two accounts belonging to the logged-in user
-        static void TransferBetweenAccounts(string user, System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Account>> accounts)
-        {
-            Console.WriteLine($"\nÖverföring mellan konton för {user}:");
-            if (!accounts.TryGetValue(user, out var list) || list.Count < 1)
-            {
-                Console.WriteLine("Inga konton hittades för användaren.");
-                return;
-            }
-
-            if (list.Count < 2)
-            {
-                Console.WriteLine("Du behöver minst två konton för att genomföra en överföring.");
-                Console.WriteLine("Tryck valfri tangent för att återgå till menyn...");
-                Console.ReadKey(true);
-                return;
-            }
-
-            // Show accounts (hide internal account numbers)
-            for (int i = 0; i < list.Count; i++)
-            {
-                var a = list[i];
-                Console.WriteLine($"{i + 1}. {a.Type} - Saldo: {a.Balance:C}");
-            }
-
-            int fromIndex = -1;
-            while (true)
-            {
-                Console.Write("Välj konto att ta pengar från (nummer): ");
-                string? input = Console.ReadLine();
-                if (int.TryParse(input, out int v) && v >= 1 && v <= list.Count)
-                {
-                    fromIndex = v - 1;
-                    break;
-                }
-                Console.WriteLine("Ogiltigt val. Försök igen.");
-            }
-
-            int toIndex = -1;
-            while (true)
-            {
-                Console.Write("Välj konto att sätta in pengarna på (nummer): ");
-                string? input = Console.ReadLine();
-                if (int.TryParse(input, out int v) && v >= 1 && v <= list.Count)
-                {
-                    toIndex = v - 1;
-                    if (toIndex == fromIndex)
-                    {
-                        Console.WriteLine("Kunde inte välja samma konto som både källa och mål. Välj ett annat konto.");
-                        continue;
-                    }
-                    break;
-                }
-                Console.WriteLine("Ogiltigt val. Försök igen.");
-            }
-
-            var fromAcct = list[fromIndex];
-            var toAcct = list[toIndex];
-
-            decimal amount = 0m;
-            while (true)
-            {
-                Console.Write($"Ange belopp att flytta från {fromAcct.Type} - Tillgängligt {fromAcct.Balance:C}: ");
-                string? s = Console.ReadLine();
-                if (decimal.TryParse(s, out amount) && amount > 0)
-                {
-                    if (amount > fromAcct.Balance)
-                    {
-                        Console.WriteLine("Otillräckligt saldo. Ange ett mindre belopp.");
-                        continue;
-                    }
-                    break;
-                }
-                Console.WriteLine("Ogiltigt belopp. Försök igen.");
-            }
-
-            // Perform transfer
-            fromAcct.Balance -= amount;
-            toAcct.Balance += amount;
-
-            Console.WriteLine($"\nÖverföring genomförd: {amount:C} från {fromAcct.Type} till {toAcct.Type}.");
-            Console.WriteLine($"Nytt saldo {fromAcct.Type}: {fromAcct.Balance:C}");
-            Console.WriteLine($"Nytt saldo {toAcct.Type}: {toAcct.Balance:C}");
-
-            Console.WriteLine("\nTryck valfri tangent för att återgå till menyn...");
-            Console.ReadKey(true);
-        }
-
+       
 
 
     }
