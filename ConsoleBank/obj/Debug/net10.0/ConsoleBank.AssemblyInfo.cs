@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ConsoleBank")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+be6d0f70a173a682ac7f5867bc428d9072eeb397")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bdfd11a453a1380f72c0e5e8020d4a7aa8af34ed")]
 [assembly: System.Reflection.AssemblyProductAttribute("ConsoleBank")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ConsoleBank")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

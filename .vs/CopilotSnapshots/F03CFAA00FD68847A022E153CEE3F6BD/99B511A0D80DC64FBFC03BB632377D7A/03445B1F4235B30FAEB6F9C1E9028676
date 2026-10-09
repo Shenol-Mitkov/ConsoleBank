@@ -1,12 +1,7 @@
 ﻿namespace ConsoleBank
 {
-    // Huvudklass för konsolbankapplikationen
-    // Innehåller programstart, menyer och alla hjälpfunktioner för kontohantering
     internal class Program
     {
-        // Programstartpunkt
-        // Körs när applikationen startar. Initierar användare och konton, hanterar inloggning
-        // och visar huvudmenyn för den inloggade användaren.
         static void Main(string[] args)
         {
             Console.WriteLine("Välkommen till ConsoleBank TM");
@@ -17,7 +12,7 @@
             string[] users = UserProfiles();
             var accounts = InitializeAccounts(users);
 
-            
+            // Outer loop: allow multiple users to log in sequentially
             while (true)
             {
                 Console.WriteLine("Välj ett konto genom att trycka nummer 1-{0}:", users.Length);
@@ -27,14 +22,11 @@
                 }
        
 
-                // Läs en tangent utan att visa den (true) och mappa tangenten till ett användarindex
-                // Exempel: om användaren trycker '1' så blir index 0
                 var keyInfo = Console.ReadKey(true);
                 char pressed = keyInfo.KeyChar;
                 int index = -1;
                 if (pressed >= '1' && pressed <= (char)('0' + users.Length))
                 {
-                    // Konvertera tecken till nollbaserat index
                     index = pressed - '1';
                 }
 
@@ -75,7 +67,7 @@
                             TransferBetweenAccounts(users[index], accounts);
                             break;
                         case '3':
-                            WithdrawFromAccount(users[index], accounts);
+                            Console.WriteLine("Val 3 är inte implementerat än.");
                             break;
                         case '4':
                             Console.WriteLine("Du loggas ut...");
@@ -90,11 +82,11 @@
                 }
 
                 Console.Clear();
-                
+                // loop back to allow another user to log in
             }
         }
 
-       
+        // Simple account model
         private class Account
         {
             public string AccountNumber { get; set; } = string.Empty;
@@ -102,28 +94,29 @@
             public string Type { get; set; } = "Check";
         }
 
-        
+        // Create a different number of accounts per user with sample balances
+        // Each user will have at least one account and users will have unique counts
         static System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Account>> InitializeAccounts(string[] users)
         {
             var dict = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Account>>();
 
-           
+            // Predefined account types to assign names to accounts
             var accountTypes = new[] { "Lönekonto", "Sparkonto", "Buffertkonto", "Resekonto", "Investeringskonto" };
 
             for (int i = 0; i < users.Length; i++)
             {
                 var list = new System.Collections.Generic.List<Account>();
 
-               
+                // Give each user a unique number of accounts (1, 2, 3, ...)
                 int accountCount = i + 1;
                 for (int a = 0; a < accountCount; a++)
                 {
                     string acctNum = $"{i + 1}-{(a + 1):00}";
 
-                   
+                    // Assign a sample balance (varying amounts including ören)
                     decimal balance = (1000m * (a + 1)) + (50m * i) + (0.25m * a);
 
-                   
+                    // Pick an account type name from the list (wrap if needed)
                     string type = accountTypes[a % accountTypes.Length];
 
                     list.Add(new Account { AccountNumber = acctNum, Balance = balance, Type = type });
@@ -134,7 +127,7 @@
 
             return dict;
         }
-        //Visar konton och saldon för den inloggade användaren.
+        // Show all accounts for the given user
         static void ShowAccounts(string user, System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Account>> accounts)
         {
             Console.WriteLine($"\nKonton för {user}:");
@@ -154,109 +147,6 @@
             Console.ReadKey(true);
         }
 
-        
-        // Hanterar uttag från ett konto. Val av konto, belopp och PIN-verifiering.
-        static void WithdrawFromAccount(string user, System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Account>> accounts)
-        {
-            Console.WriteLine($"\nTa ut pengar för {user}:");
-            if (!accounts.TryGetValue(user, out var list) || list.Count == 0)
-            {
-                Console.WriteLine("Inga konton hittades för användaren.");
-                return;
-            }
-
-          
-            for (int i = 0; i < list.Count; i++)
-            {
-                var a = list[i];
-                Console.WriteLine($"{i + 1}. {a.Type} - Saldo: {a.Balance:C}");
-            }
-
-            int acctIndex = -1;
-            while (true)
-            {
-                Console.Write("Välj konto att ta ut från (nummer): ");
-                string? input = Console.ReadLine();
-                if (int.TryParse(input, out int v) && v >= 1 && v <= list.Count)
-                {
-                    acctIndex = v - 1;
-                    break;
-                }
-                Console.WriteLine("Ogiltigt val. Försök igen.");
-            }
-
-            var acct = list[acctIndex];
-
-            decimal amount = 0m;
-            while (true)
-            {
-                Console.Write($"Ange belopp att ta ut från {acct.Type} - Tillgängligt {acct.Balance:C}: ");
-                string? s = Console.ReadLine();
-                if (decimal.TryParse(s, out amount) && amount > 0)
-                {
-                    if (amount > acct.Balance)
-                    {
-                        Console.WriteLine("Otillräckligt saldo. Ange ett mindre belopp.");
-                        continue;
-                    }
-                    break;
-                }
-                Console.WriteLine("Ogiltigt belopp. Försök igen.");
-            }
-
-            
-            const string CorrectPin = "1234";
-            int attempts = 3;
-            bool pinOk = false;
-            for (int attempt = 1; attempt <= attempts; attempt++)
-            {
-                Console.Write("Ange PIN-kod (4 siffror) för att bekräfta uttaget: ");
-                string? pin = Console.ReadLine() ?? string.Empty;
-
-                
-                bool digitsOnly = pin.Length == 4;
-                foreach (char c in pin)
-                {
-                    if (!char.IsDigit(c))
-                    {
-                        digitsOnly = false;
-                        break;
-                    }
-                }
-
-                if (!digitsOnly)
-                {
-                    Console.WriteLine("PIN måste bestå av exakt 4 siffror. Försök igen.");
-                    continue;
-                }
-
-                if (pin == CorrectPin)
-                {
-                    pinOk = true;
-                    break;
-                }
-
-                int remaining = attempts - attempt;
-                Console.WriteLine($"Fel PIN. Försök igen. ({remaining} försök kvar)");
-            }
-
-            if (!pinOk)
-            {
-                Console.WriteLine("PIN-verifiering misslyckades. Uttag avbrutet.");
-                Console.WriteLine("Tryck valfri tangent för att återgå till menyn...");
-                Console.ReadKey(true);
-                return;
-            }
-
-           
-            acct.Balance -= amount;
-            Console.WriteLine($"\nUttag genomfört: {amount:C} från {acct.Type}.");
-            Console.WriteLine($"Nytt saldo {acct.Type}: {acct.Balance:C}");
-            Console.WriteLine("\nTryck valfri tangent för att återgå till menyn...");
-            Console.ReadKey(true);
-        }
-
-        // Returnerar en hårdkodad lista med användarprofiler (namn)
         static string[] UserProfiles()
         {
             string[] users = new string[5];
@@ -270,41 +160,24 @@
         }
 
         
-        // Kontrollerar lösenord för den angivna användaren
-        // Tillåter ett begränsat antal försök (maxAttempts)
-        // Lösenorden matchas mot en intern karta per användare
         static bool PasswordCheck(string user, int maxAttempts)
         {
-            
-            static string GetPasswordForUser(string u) => u switch
-            {
-                "Shenol Mitkov" => "Admin",
-                "Bertil Korggren" => "Nimda",
-                "Felix Reztsel" => "Polen",
-                "Alexandra Nilsson" => "Miner",
-                "Anas Alhussein" => "Lärare",
-                _ => "",
-            };
-
-            string expected = GetPasswordForUser(user);
             for (int attempt = 1; attempt <= maxAttempts; attempt++)
             {
                 Console.Write($"\nSkriv in lösenord för {user}: ");
                 string password = Console.ReadLine() ?? string.Empty;
-                if (password == expected)
+                if (password == "Admin")
                     return true;
 
                 int remaining = maxAttempts - attempt;
                 if (remaining > 0)
                     Console.WriteLine($"Fel lösenord. Försök igen. ({remaining} försök kvar)");
             }
-
+           
             return false;
         }
 
-        
-        // Utför överföring mellan två konton för den inloggade användaren
-        // Val av källa, mål, belopp, validering och uppdatering av saldon
+        // Transfer funds between two accounts belonging to the logged-in user
         static void TransferBetweenAccounts(string user, System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Account>> accounts)
         {
             Console.WriteLine($"\nÖverföring mellan konton för {user}:");
@@ -314,7 +187,6 @@
                 return;
             }
 
-            // Måste finnas minst två konton för att kunna göra en mellan-konto-överföring
             if (list.Count < 2)
             {
                 Console.WriteLine("Du behöver minst två konton för att genomföra en överföring.");
@@ -323,8 +195,7 @@
                 return;
             }
 
-           
-            
+            // Show accounts (hide internal account numbers)
             for (int i = 0; i < list.Count; i++)
             {
                 var a = list[i];
@@ -332,21 +203,19 @@
             }
 
             int fromIndex = -1;
-            // Läs in användarens val för källkonto
             while (true)
             {
                 Console.Write("Välj konto att ta pengar från (nummer): ");
                 string? input = Console.ReadLine();
                 if (int.TryParse(input, out int v) && v >= 1 && v <= list.Count)
                 {
-                    fromIndex = v - 1; // konvertera till nollbaserat index
+                    fromIndex = v - 1;
                     break;
                 }
                 Console.WriteLine("Ogiltigt val. Försök igen.");
             }
 
             int toIndex = -1;
-            // Läs in mål-konto och säkerställ att det inte är samma som källan
             while (true)
             {
                 Console.Write("Välj konto att sätta in pengarna på (nummer): ");
@@ -367,7 +236,6 @@
             var fromAcct = list[fromIndex];
             var toAcct = list[toIndex];
 
-            // Läs in belopp att överföra och validera format och saldo
             decimal amount = 0m;
             while (true)
             {
@@ -385,7 +253,7 @@
                 Console.WriteLine("Ogiltigt belopp. Försök igen.");
             }
 
-           
+            // Perform transfer
             fromAcct.Balance -= amount;
             toAcct.Balance += amount;
 
