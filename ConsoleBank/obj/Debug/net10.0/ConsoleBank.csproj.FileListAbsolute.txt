@@ -30,3 +30,4 @@ C:\Users\Sheno\source\repos\GitHub\ConsoleBank\ConsoleBank\obj\Debug\net10.0\Con
 C:\Users\Sheno\source\repos\GitHub\ConsoleBank\ConsoleBank\obj\Debug\net10.0\ConsoleBank.genruntimeconfig.cache
 C:\Users\Sheno\source\repos\GitHub\ConsoleBank\ConsoleBank\obj\Debug\net10.0\ref\ConsoleBank.dll
 C:\Users\Sheno\source\repos\GitHub\ConsoleBank\ConsoleBank\obj\Debug\net10.0\ConsoleB.3A119E6F.Up2Date
+C:\Users\Sheno\source\repos\GitHub\ConsoleBank\ConsoleBank\bin\Debug\net10.0\ConsoleBank.runtimeconfig.dev.json
